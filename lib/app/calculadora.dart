@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'components/menu.dart';
-import 'home.dart';
+import 'login.dart';
 
-class SegundaTela extends StatefulWidget {
-  const SegundaTela({super.key});
+class Calculadora extends StatefulWidget {
+  const Calculadora({super.key});
 
   @override
-  State<SegundaTela> createState() => _SegundaTelaState();
+  State<Calculadora> createState() => _CalculadoraState();
 }
 
-class _SegundaTelaState extends State<SegundaTela> {
+class _CalculadoraState extends State<Calculadora> {
   int _counter = 0;
   final _number1 = TextEditingController();
   final _number2 = TextEditingController();
@@ -60,7 +60,7 @@ class _SegundaTelaState extends State<SegundaTela> {
       Menu(context),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Primeira Tela"),
+        title: Text("Calculadora"),
       ),
       body: Center(
         child: Column(

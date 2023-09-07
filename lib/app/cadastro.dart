@@ -1,3 +1,4 @@
+import 'package:atividade/app/quarta_tela.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'components/menu.dart';
@@ -13,15 +14,19 @@ class TerceiraTela extends StatefulWidget {
 class _TerceiraTelaState extends State<TerceiraTela> {
   final _formKey = GlobalKey<FormState>();
   final name = TextEditingController();
-  final phone = TextEditingController();
+  final email = TextEditingController();
+  final senha = TextEditingController();
+
   String retornoNome ="";
-  String retornoPhone ="";
+  String retornoEmail ="";
+  String retornoSenha ="";
 
   void _enviar() {
 
     setState(() {
       retornoNome = name.text;
-      retornoPhone = phone.text;
+      retornoEmail = email.text;
+      retornoSenha = senha.text;
     });
   }
 
@@ -29,7 +34,7 @@ class _TerceiraTelaState extends State<TerceiraTela> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Terceira Tela'),
+        title: const Text('Tela Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,29 +44,48 @@ class _TerceiraTelaState extends State<TerceiraTela> {
             children: [
               TextFormField(
                 controller: name,
-                decoration: const InputDecoration(labelText: 'Nome'),
+                decoration: const InputDecoration(labelText: 'Nome:'),
 
                 keyboardType: TextInputType.name,
               ),
               TextFormField(
-                controller: phone,
-                decoration: const InputDecoration(labelText: 'Telefone'),
+                controller: email,
+                decoration: const InputDecoration(labelText: 'E-mail:'),
 
-                keyboardType: TextInputType.phone,
+                keyboardType: TextInputType.emailAddress,
+              ),
+              TextFormField(
+                controller: senha,
+                decoration: const InputDecoration(labelText: 'Senha:'),
+
+                keyboardType: TextInputType.text,
               ),
 
               TextButton(
                 onPressed: () {
                   _enviar();
                 },
-                child: Text('Enviar'),
+                child: Text('Cadastro'),
+              ),
+              TextButton(
+                onPressed: () {
+                  _enviar();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const QuartaTela()),
+                  );
+                },
+                child: Text('Login'),
               ),
 
               Text(
                 'Nome: $retornoNome',
               ),
               Text(
-                'Telefone: $retornoPhone',
+                'Email: $retornoEmail',
+              ),
+              Text(
+                'Senha: $retornoSenha',
               ),
             ],
           ),
