@@ -1,64 +1,39 @@
-import 'package:atividade/app/calculadora.dart';
-import 'package:atividade/app/cadastro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'components/menu.dart';
 
-class QuartaTela extends StatefulWidget {
-  const QuartaTela({super.key});
+class Sobre extends StatefulWidget {
+  const Sobre({super.key});
 
   @override
-  State<QuartaTela> createState() => _QuartaTelaState();
+  State<Sobre> createState() => _SobreState();
 }
 
-class _QuartaTelaState extends State<QuartaTela> {
-  final email = TextEditingController();
-  final senha = TextEditingController();
-
-  String retornoEmail ="";
-  String retornoSenha ="";
+class _SobreState extends State<Sobre> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer:
+      Menu(context),
       appBar: AppBar(
-        title: const Text('Tela Login'),
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .inversePrimary,
+        title: Text("Sobre"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
+      body: SingleChildScrollView(
+        child: Center(
           child: Column(
-            children: [
-              TextFormField(
-                controller: email,
-                decoration: const InputDecoration(labelText: 'E-mail:'),
 
-                keyboardType: TextInputType.emailAddress,
-              ),
-              TextFormField(
-                controller: senha,
-                decoration: const InputDecoration(labelText: 'Senha:'),
-
-                keyboardType: TextInputType.text,
+            children: <Widget>[
+              const Text(
+                'SEJA BEM VINDO!!',
               ),
 
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Calculadora()),
-                  );
-                },
-                child: Text('Login'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Cadastro()),
-                  );
-                },
-                child: Text('Cadastrar'),
-              ),
+              Image.asset('imagem/paisagem.webp')
+
             ],
           ),
         ),

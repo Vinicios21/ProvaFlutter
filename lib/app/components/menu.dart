@@ -1,7 +1,8 @@
+import 'package:atividade/app/sobre.dart';
 import 'package:flutter/material.dart';
-import '../home.dart';
-import '../segunda_tela.dart';
-import '../terceira_tela.dart';
+import '../login.dart';
+import '../calculadora.dart';
+import '../cadastro.dart';
 
 Widget Menu(BuildContext context){
   return Drawer(
@@ -17,7 +18,28 @@ Widget Menu(BuildContext context){
         ),
 
         ListTile(
-          title: const Text('Primeira tela'),
+          title: const Text('Calculadora'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>
+              const Calculadora()),
+            );
+          },
+        ),
+        ListTile(
+          title: const Text('Sobre'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>
+              const Sobre()),
+            );
+          },
+        ),
+
+        ListTile(
+          title: const Text('Sair'),
           onTap: () {
             Navigator.push(
               context,
@@ -25,30 +47,7 @@ Widget Menu(BuildContext context){
             );
           },
         ),
-
-        ListTile(
-          title: const Text('Segunda tela'),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>
-              const SegundaTela()),
-            );
-          },
-        ),
-        ListTile(
-          title: const Text('Terceira  tela'),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>
-              const TerceiraTela()),
-            );
-          },
-        ),
       ],
     ),
   ) ;
-
-
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'components/menu.dart';
-import 'login.dart';
 
 class Calculadora extends StatefulWidget {
   const Calculadora({super.key});
@@ -11,45 +10,67 @@ class Calculadora extends StatefulWidget {
 }
 
 class _CalculadoraState extends State<Calculadora> {
-  int _counter = 0;
-  final _number1 = TextEditingController();
-  final _number2 = TextEditingController();
-  String total = "0";
-  void _incrementCounter() {
+  String _output = "0";
+  String _currentNumber = "";
+  String _operator = "";
+  double _result = 0;
+
+  void _onNumberPressed(String number) {
     setState(() {
-      _counter++;
+      if (_currentNumber == "0") {
+        _currentNumber = number;
+      } else {
+        _currentNumber += number;
+      }
     });
   }
 
-  void _somar() {
-    double? value1 = double.tryParse(_number1.text) ?? 0.0;
-    double? value2 = double.tryParse( _number2.text) ?? 0.0;
+  void _onOperatorPressed(String operator) {
     setState(() {
-      total =  (value1 + value2).toString();
+      if (_operator.isNotEmpty) {
+        _calculate();
+      }
+      _operator = operator;
+      _result = double.parse(_currentNumber);
+      _currentNumber = "";
     });
   }
 
-  void _subtrair() {
-    double? value1 = double.tryParse(_number1.text) ?? 0.0;
-    double? value2 = double.tryParse( _number2.text) ?? 0.0;
+  void _onEqualsPressed() {
     setState(() {
-      total =  (value1 - value2).toString();
+      _calculate();
+      _operator = "";
     });
   }
 
-  void _multiplicar() {
-    double? value1 = double.tryParse(_number1.text) ?? 0.0;
-    double? value2 = double.tryParse( _number2.text) ?? 0.0;
-    setState(() {
-      total =  (value1 * value2).toString();
-    });
+  void _calculate() {
+    double num1 = _result;
+    double num2 = double.parse(_currentNumber);
+
+    switch (_operator) {
+      case "+":
+        _result = num1 + num2;
+        break;
+      case "-":
+        _result = num1 - num2;
+        break;
+      case "*":
+        _result = num1 * num2;
+        break;
+      case "/":
+        _result = num1 / num2;
+        break;
+    }
+
+    _currentNumber = _result.toString();
   }
 
-  void _dividir() {
-    double? value1 = double.tryParse(_number1.text) ?? 0.0;
-    double? value2 = double.tryParse( _number2.text) ?? 0.0;
+  void _onClearPressed() {
     setState(() {
-      total =  (value1 / value2).toString();
+      _output = "0";
+      _currentNumber = "";
+      _operator = "";
+      _result = 0;
     });
   }
 
@@ -59,72 +80,98 @@ class _CalculadoraState extends State<Calculadora> {
       drawer:
       Menu(context),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Calculadora"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Contador:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            TextFormField(
-              // style: TextStyle(fontSize: 18, color: Colors.red),
-              controller: _number1,
-              decoration: const InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      width: 1,
-                      color: Colors.grey), //<-- SEE HERE
-                ),
-                hintText: "Number 1",
-                icon: Icon(Icons.numbers, color: Colors.grey),
-              ),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              // style: TextStyle(fontSize: 18, color: Colors.red),
-              controller: _number2,
-              decoration: const InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      width: 1,
-                      color: Colors.grey),
-                ),
-                hintText: "Number 2",
-                icon: Icon(Icons.numbers, color: Colors.grey),
-              ),
-              keyboardType: TextInputType.number,
-
-            ),
-            TextButton(
+        title: const Text('Calculadora'),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu), // Ícone do menu
               onPressed: () {
-                _somar();
+                Scaffold.of(context).openDrawer(); // Abre o menu lateral
               },
-              child: const Text(
-                'Somar',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18.0),
-              ),
-            ),
-            Text(
-                "Valor da soma é $total"
-            ),
-
-          ],
+            );
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.bottomRight,
+            child: Text(
+              _currentNumber.isEmpty ? "0" : _currentNumber,
+              style: TextStyle(fontSize: 48),
+            ),
+          ),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildButton("7"),
+              _buildButton("8"),
+              _buildButton("9"),
+              _buildOperatorButton("/"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildButton("4"),
+              _buildButton("5"),
+              _buildButton("6"),
+              _buildOperatorButton("*"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildButton("1"),
+              _buildButton("2"),
+              _buildButton("3"),
+              _buildOperatorButton("-"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildButton("0"),
+              _buildButton("C"),
+              _buildButton("="),
+              _buildOperatorButton("+"),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildButton(String buttonText) {
+    return ElevatedButton(
+      onPressed: () {
+        if (buttonText == "C") {
+          _onClearPressed();
+        } else if (buttonText == "=") {
+          _onEqualsPressed();
+        } else {
+          _onNumberPressed(buttonText);
+        }
+      },
+      child: Text(
+        buttonText,
+        style: TextStyle(fontSize: 24),
+      ),
+    );
+  }
+
+  Widget _buildOperatorButton(String operator) {
+    return ElevatedButton(
+      onPressed: () {
+        _onOperatorPressed(operator);
+      },
+      child: Text(
+        operator,
+        style: TextStyle(fontSize: 24),
+      ),
     );
   }
 }

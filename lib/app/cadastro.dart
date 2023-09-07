@@ -1,17 +1,15 @@
-import 'package:atividade/app/quarta_tela.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'components/menu.dart';
-import 'home.dart';
+import 'login.dart';
 
-class TerceiraTela extends StatefulWidget {
-  const TerceiraTela({super.key});
+class Cadastro extends StatefulWidget {
+  const Cadastro({super.key});
 
   @override
-  State<TerceiraTela> createState() => _TerceiraTelaState();
+  State<Cadastro> createState() => _CadastroState();
 }
 
-class _TerceiraTelaState extends State<TerceiraTela> {
+class _CadastroState extends State<Cadastro> {
   final _formKey = GlobalKey<FormState>();
   final name = TextEditingController();
   final email = TextEditingController();
@@ -34,7 +32,7 @@ class _TerceiraTelaState extends State<TerceiraTela> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tela Login'),
+        title: const Text('Faça seu Cadastro'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -64,19 +62,21 @@ class _TerceiraTelaState extends State<TerceiraTela> {
               TextButton(
                 onPressed: () {
                   _enviar();
-                },
-                child: Text('Cadastro'),
-              ),
-              TextButton(
-                onPressed: () {
-                  _enviar();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const QuartaTela()),
+                    MaterialPageRoute(builder: (context) => const MyHomePage()),
                   );
                 },
                 child: Text('Login'),
               ),
+
+              TextButton(
+                onPressed: () {
+                  _enviar();
+                },
+                child: Text('Cadastrar-se'),
+              ),
+
 
               Text(
                 'Nome: $retornoNome',
